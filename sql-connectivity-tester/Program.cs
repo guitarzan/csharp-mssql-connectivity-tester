@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Data.SqlClient;
 
 namespace sql_connectivity_tester
@@ -21,12 +21,14 @@ namespace sql_connectivity_tester
                     var query = "select 1";
                     Console.WriteLine("Executing: {0}", query);
 
-                    var command = new SqlCommand(query, connection);
+                    using (var command = new SqlCommand(query, connection))
+                    {
+                        connection.Open();
+                        Console.WriteLine("SQL Connection successful.");
 
-                    connection.Open();
-                    Console.WriteLine("SQL Connection successful.");
+                        command.ExecuteScalar();
+                    }
 
-                    command.ExecuteScalar();
                     Console.WriteLine("SQL Query execution successful.");
 
                     return (int)ExitCode.Success;
