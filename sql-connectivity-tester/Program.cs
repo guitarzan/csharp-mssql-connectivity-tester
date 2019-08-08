@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Data.SqlClient;
 
 namespace sql_connectivity_tester
@@ -15,8 +15,18 @@ namespace sql_connectivity_tester
         {
             try
             {
-                Console.WriteLine("Connecting to: {0}", AppConfig.ConnectionString);
-                using (var connection = new SqlConnection(AppConfig.ConnectionString))
+                string connectionString;
+                if (args != null && args.Length > 0)
+                {
+                    connectionString = args[0];
+                }
+                else
+                {
+                    connectionString = AppConfig.ConnectionString;
+                }
+
+                Console.WriteLine("Connecting to: {0}", connectionString);
+                using (var connection = new SqlConnection(connectionString))
                 {
                     var query = "select 1";
                     Console.WriteLine("Executing: {0}", query);
@@ -30,6 +40,7 @@ namespace sql_connectivity_tester
                     }
 
                     Console.WriteLine("SQL Query execution successful.");
+                    Console.WriteLine();
 
                     return (int)ExitCode.Success;
                 }
@@ -37,6 +48,7 @@ namespace sql_connectivity_tester
             catch (Exception ex)
             {
                 Console.WriteLine("Failure: {0}", ex.Message);
+                Console.WriteLine();
                 return (int)ExitCode.UnknownError;
             }
         }
