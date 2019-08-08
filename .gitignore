@@ -109,3 +109,5 @@ UpgradeLog*.XML
 
 # Elmah
 */App_Data/elmah*
+
+.vs/
